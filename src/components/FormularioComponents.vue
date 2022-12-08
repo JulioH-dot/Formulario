@@ -4,7 +4,8 @@
             <div class="col-6 bg-light" >
                 <span class="fs-4">ENTRADA DE DADOS</span>
                 <hr>
-                <form>
+               <!-- <form @submit="enviar($event)">-->
+                <form @reset="resetar()">
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label" >Nome:</label>
                         <div class="col">
@@ -228,26 +229,43 @@
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Valor limite:</label>
                         <div class="col">
-                            <input type="range" class="form-range" min="0" max="100" step="1" v-model.number="client.valorLimite">
+                            <input type="range" class="form-range" min="0" max="100" step="10" v-model="client.valorLimite">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Escondido:</label>
                         <div class="col">
-                            <input type="hidden" class="form-control">
+                            <input type="hidden" class="form-control" v-model="client.escondido">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Upload:</label>
                         <div class="col">
-                            <input type="file" class="form-control">
+                            <input type="file" class="form-control" multiple @change="selecionarArquivos($event)">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Descrição:</label>
+                        <div class="col">
+                            <textarea class="form-control" rows="3" v-model="client.descricao"></textarea>
+                            
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Cursos:</label>
+                        <div class="col">
+                            <select class="form-select" v-model="client.cursos1">
+                                <option value="" disabled> -- selecione uma opção --</option>
+                                <option v-for="curso in cursos" :key="curso.id" :value="curso.id" >{{curso.id}} - {{curso.curso}}</option>
+                            </select>
+                            
                         </div>
                     </div>
                     <hr>
                     <div class="mb-3 row">
                         <div class="col d-flex justify-content-between">
                             <button class="btn btn-secondary" type="reset">Limpar</button>
-                            <button class="btn btn-success" type="button">Enviar (btn)</button>
+                            <button class="btn btn-success" type="button" @click="enviar($event)">Enviar (btn)</button>
                             <button class="btn btn-success" type="submit">Enviar (submit)</button>
                         </div>                        
                     </div>
@@ -257,13 +275,10 @@
 
             
             <div class="col-6 text-white bg-secondary" :style="'background-color:' +client.cor +'!important'">
-                <span class="fs-4">ESTADO DO OBJETO</span>
-                <hr>
-                <div class="mb-5 row">
-                    <span>{{client}}</span>
-                </div>
+                
 
                 <span class="fs-4">SAÍDA DE DADOS</span>
+              
                 <hr>
                 <div class="mb-3 row">
                     <span>Nome: {{client.nome}}</span>
@@ -329,13 +344,24 @@
                     <span>Cor:{{client.cor}}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Valor limite:</span>
+                    <span>Valor limite: {{client.valorLimite}}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Escondido:</span>
+                    <span>Escondido: {{client.escondido}}</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Descrição: </span>
+                    <div style="white-space: pre">{{client.descricao}}</div>
+                </div>
+                <div class="mb-3 row">
+                    <span>Cursos: {{client.cursos1}}</span>
+                    
                 </div>
                 <div class="mb-3 row">
                     <span>Upload:</span>
+                    <ul>
+                        <li v-for="(arquivo, index) in client.arquivos" :key="index">{{arquivo.name}}</li>
+                    </ul>
                 </div>  
             </div>
         </div>
@@ -352,8 +378,14 @@ export default {
 
     name: 'Formulario',
     data:()=>({
-        
-        client:{
+        cursos:[
+            {id:1, curso: 'Desenvolvimento WEB Avançado Vue'},
+            {id:2, curso: 'Desenvolvimento WEB Avançado Laravel'},
+            {id:3, curso: 'Desenvolvimento WEB Avançado React'},
+            {id:4, curso: 'Desenvolvimento NodeJs e MongoDB'},
+        ],
+        client:{},
+        client1:{
             nome:'',
             email:'',
             password:'',
@@ -376,11 +408,34 @@ export default {
             month:'',
             week:'',
             time:'',
-            cor:'',
-            valorLimite:'',
+            cor:'#6c757d',
+            valorLimite:5,
+            escondido:'escondido',
+            descricao:'',
+            arquivos:{
+
+            },
+            cursos1:''
 
         }
     }),
+    created(){
+        this.resetar()
+    },
+    methods:{
+        selecionarArquivos(event){
+            this.client.arquivos = event.target.files
+        },
+        enviar(event){
+            const formEnvio = Object.assign({},this.client)
+            console.log(event)
+            console.log(formEnvio)
+            //enviar requisições http para o back-end para alocar os dados no BDD
+        },
+        resetar(){
+            this.client = Object.assign({},this.client1)
+        }
+    }
    
 }
 </script>
