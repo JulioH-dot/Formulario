@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-6 bg-light">
+            <div class="col-6 bg-light" >
                 <span class="fs-4">ENTRADA DE DADOS</span>
                 <hr>
                 <form>
@@ -192,43 +192,43 @@
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Data:</label>
                         <div class="col">
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" v-model="client.date">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Data/hora local:</label>
                         <div class="col">
-                            <input type="datetime-local" class="form-control">
+                            <input type="datetime-local" class="form-control" v-model="client.dateTimelocal">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Mês:</label>
                         <div class="col">
-                            <input type="month" class="form-control">
+                            <input type="month" class="form-control" v-model="client.month">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Semana:</label>
                         <div class="col">
-                            <input type="week" class="form-control">
+                            <input type="week" class="form-control" v-model="client.week">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Hora:</label>
                         <div class="col">
-                            <input type="time" class="form-control">
+                            <input type="time" class="form-control" v-model="client.time">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Cor:</label>
                         <div class="col">
-                            <input type="color" class="form-color">
+                            <input type="color" class="form-color" v-model="client.cor">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Valor limite:</label>
                         <div class="col">
-                            <input type="range" class="form-range" min="0" max="100" step="1">
+                            <input type="range" class="form-range" min="0" max="100" step="1" v-model.number="client.valorLimite">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -256,7 +256,7 @@
             </div>
 
             
-            <div class="col-6 text-white bg-secondary">
+            <div class="col-6 text-white bg-secondary" :style="'background-color:' +client.cor +'!important'">
                 <span class="fs-4">ESTADO DO OBJETO</span>
                 <hr>
                 <div class="mb-5 row">
@@ -311,19 +311,22 @@
                     <span>RG: {{client.rg}}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Data/hora local:</span>
+                    <span>Data: {{$moment(client.date).format('DD/MM/YYYY')}}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Mês:</span>
+                    <span>Data/hora local: {{$moment(client.dateTimelocal).format('lll')}}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Semana:</span>
+                    <span>Mês: {{client.month}}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Hora:</span>
+                    <span>Semana: {{client.week}}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Cor:</span>
+                    <span>Hora: {{client.time}}</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Cor:{{client.cor}}</span>
                 </div>
                 <div class="mb-3 row">
                     <span>Valor limite:</span>
@@ -342,7 +345,11 @@
 </template>
 
 <script>
+
+
 export default {
+    
+
     name: 'Formulario',
     data:()=>({
         
@@ -364,7 +371,16 @@ export default {
             placaVeiculoMecoSul:'',
             tipoVeiculo:'',
             rg:'',
+            date:'',
+            dateTimelocal:'',
+            month:'',
+            week:'',
+            time:'',
+            cor:'',
+            valorLimite:'',
+
         }
-    })
+    }),
+   
 }
 </script>
