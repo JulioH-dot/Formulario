@@ -90,6 +90,8 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Telefone:</label>
                         <div class="col">
@@ -261,6 +263,13 @@
                             
                         </div>
                     </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Avaliação:</label>
+                        <div class="col">
+                            <input-estrelas :numero-estrelas="5" @avaliar="client.avaliacao = $event"/>
+                            
+                        </div>
+                    </div>
                     <hr>
                     <div class="mb-3 row">
                         <div class="col d-flex justify-content-between">
@@ -358,6 +367,9 @@
                     
                 </div>
                 <div class="mb-3 row">
+                    <span>Avaliação: {{client.avaliacao}}</span>                    
+                </div>
+                <div class="mb-3 row">
                     <span>Upload:</span>
                     <ul>
                         <li v-for="(arquivo, index) in client.arquivos" :key="index">{{arquivo.name}}</li>
@@ -371,10 +383,13 @@
 </template>
 
 <script>
-
+import InputEstrelas from '@/components/InputEstrelas.vue'
 
 export default {
-    
+    components:{
+        InputEstrelas
+    },
+
 
     name: 'Formulario',
     data:()=>({
@@ -415,7 +430,8 @@ export default {
             arquivos:{
 
             },
-            cursos1:''
+            cursos1:'',
+            avaliacao: 0,
 
         }
     }),
